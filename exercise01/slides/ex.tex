@@ -23,7 +23,7 @@
 % \end{frame}
 
 \begin{frame}
-    \frametitle{Task 2.1}
+    \frametitle{Task 1.2.0}
     \begin{itemize}
         \item Given the following two rule sets, implement code that solves the least squares problem between $X^T$ and $y$.
         \item Afterwards the code should calculate $\hat{y}$ using the calculated weights.
@@ -31,7 +31,7 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{Task 2.1}
+    \frametitle{Task 1.2.0}
     \begin{minipage}{0.45\textwidth}
         \begin{table}[]
             \caption[short]{Rule 110}
@@ -69,7 +69,7 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{Task 2.1}
+    \frametitle{Task 1.2.1}
     \inputminted[bgcolor=LightGray,fontsize=\small]{python}{calcyhat.py}
     \begin{minipage}{0.45\textwidth}
         $\hat{y}_{110}= \begin{pmatrix}
@@ -98,7 +98,7 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{Task 2.1}
+    \frametitle{Task 1.2.1}
     \begin{itemize}
         \item The first calculation is numerically stable
         \item Even though the difference between the two rulesets is only one number, the second calculation becomes numerically unstable
@@ -106,14 +106,14 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{Task 2.2}
+    \frametitle{Task 1.2.2}
     Implement a function phi which takes a vector $x$ with $n$ elements and realizes the following transformation:
     $\varphi : \{+1, -1\}^n \to \{+1, -1\}^{2^n} $
     \inputminted[bgcolor=LightGray,fontsize=\small]{python}{phi.py}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Task 2.3}
+    \frametitle{Task 1.2.3}
     Given the previously introduced function phi we compute the matrix
     $\phi^T = \begin{bmatrix}
             \rule[.5ex]{2.5ex}{0.5pt} & \varphi^T_0 & \rule[.5ex]{2.5ex}{0.5pt} \\
@@ -126,7 +126,7 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{Task 2.3}
+    \frametitle{Task 1.2.3}
     \begin{minipage}{0.45\textwidth}
         $\hat{y}_{110}= \begin{pmatrix}
                 +1 \\
