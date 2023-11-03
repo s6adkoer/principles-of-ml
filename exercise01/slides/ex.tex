@@ -17,10 +17,6 @@
 
 \section{Exercise 1.2}
 
-% \begin{frame}
-%     \frametitle{test}
-%     %\inputminted[bgcolor=LightGray]{python}{tmp.py}
-% \end{frame}
 
 \begin{frame}
     \frametitle{Task 1.2.0}
@@ -99,10 +95,22 @@
 
 \begin{frame}
     \frametitle{Task 1.2.1}
-    \begin{itemize}
-        \item The first calculation is numerically stable
-        \item Even though the difference between the two rulesets is only one number, the second calculation becomes numerically unstable
-    \end{itemize}
+    \begin{minipage}{0.65\textwidth}
+        \begin{itemize}
+            \item The first calculation is numerically stable
+            \\[5mm]
+            \item Even though the difference between the two rulesets is only one number, the second calculation becomes numerically unstable
+            \\[5mm]
+            \item Our data points are the vertices of a cube of side length 2, which are not linearly separable. Therefore no linear model can 
+                predict all points correctly. 
+            \\[5mm]
+            \item We will avoid this issue in the next task by using the kernel trick (embedding our data 
+                in a higher dimensional space, in which the points are linearly separable).
+        \end{itemize}
+    \end{minipage}
+    \begin{minipage}{0.25\textwidth}
+        \includegraphics[scale=0.8]{images/lin_sep.png}
+    \end{minipage}
 \end{frame}
 
 \begin{frame}
@@ -154,7 +162,7 @@
     
     \vspace{1cm}
     We now observe that $\hat{y}_{110}=y_{110}$ and $\hat{y}_{126}=y_{126}$.
-    We "trained" our "parameters" w with all possible inputs/"data" to archieve an output as close as possible to our rule so that we get a good output according to our rule for every input. We had to pay the price of computing a high dimensional feature map Phi. Because of this our "training" aka. the search for the least squares solution is highly complex (in contrast to the computing of the rule once the parameters have been found)
+    We trained our parameters w with all possible inputs/data to archieve an output as close as possible to our rule so that we get a good output according to our rule for every input. We had to pay the price of computing a high dimensional feature map Phi. Because of this our training aka. The search for the least squares solution is highly complex (in contrast to the computing of the rule once the parameters have been found).
 \end{frame}
 
 \section{Exercise 1.3}
