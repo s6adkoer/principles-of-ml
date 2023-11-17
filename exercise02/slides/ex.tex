@@ -17,7 +17,7 @@
 
 \section{Exercise 2.1}
 \begin{frame}
-    \frametitle{Task 2.1.1-2}
+    \frametitle{Task 2.1.1-2 :: Loading}
     Instead of removing the outliers, its easier to keep the inliers:
     \inputminted[bgcolor=LightGray,fontsize=\small]{python}{code/filter-outliers.py}
 
@@ -26,7 +26,7 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{Task 2.1.3}
+    \frametitle{Task 2.1.3 :: Predictions}
     Conditional Probability of a Gaussian:
     \inputminted[bgcolor=LightGray,fontsize=\small]{python}{code/predict-gaussian.py}
     
@@ -52,36 +52,48 @@
     \begin{itemize}
         \item[+] Results seem plausible -- mostly so around the mean
         \item[-] Fixed variance doesnt match expectations (taller people $\rightarrow$ more variance)
-        \item[-] Cube-Square-Law suggests a non-linear relationship?
+        \item[-] Cube-Square-Law / BMI suggests a non-linear / quadratic relationship?
         \item    Plausibility? Test-Set!
     \end{itemize}
 \end{frame}
 
 \section{2.2}
 \begin{frame}
-    \frametitle{Task 2.2.1}
-    % Conditional Probability of a Gaussian:
-    % \inputminted[bgcolor=LightGray,fontsize=\small]{python}{code/predict-gaussian.py}
-    
-    % \begin{columns}
-    %     \begin{column}{0.5\textwidth}
-    %     \begin{center}
-    %         \includegraphics[width=0.7\textwidth]{images/predictions.png}
-    %     \end{center}
-    %     \end{column}
-    %     \begin{column}{0.5\textwidth}  
-    %     \begin{figure}
-    %         \centering
-    %         \includegraphics[width=0.7\textwidth]{images/gaussian.png}
-    %         \caption{Estimated PDF and given data}
-    %         \end{figure}
-    %     \end{column}
-    % \end{columns}
+    \frametitle{Task 2.2.1 :: Loading}
+    \begin{columns}
+    \begin{column}{0.6\textwidth}
+        \inputminted[bgcolor=LightGray,fontsize=\small]{python}{code/myspace-pre.py}
+    \end{column}
+    \begin{column}{0.4\textwidth}
+        \begin{figure}
+            \includegraphics[width=\textwidth]{images/myspace.png}
+        \end{figure}
+    \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Task 2.2.1 :: ManuDiff Newton}
 \end{frame}
 
 \section{2.3}
 \begin{frame}
-    \frametitle{Task 2.3}
+    \frametitle{Task 2.3 :: Scipy CurveFit}
+    \inputminted[bgcolor=LightGray,fontsize=\small]{python}{code/curve-fit.py}
+
+    \begin{columns}
+        \begin{column}{0.7\textwidth}
+            \begin{itemize}
+                \item ...
+            \end{itemize}
+        \end{column}
+    
+        \begin{column}{0.3\textwidth}
+            \begin{figure}
+                \includegraphics[width=\textwidth]{images/scicurvefit.png}
+            \end{figure}
+        \end{column}
+        \end{columns}
 \end{frame}
 
 \section{2.4}
@@ -91,7 +103,27 @@
 
 \section{2.5}
 \begin{frame}
-    \frametitle{Task 2.5}
+    \frametitle{Task 2.5 :: Scipy Minimize}
+    \inputminted[bgcolor=LightGray,fontsize=\small]{python}{code/minimize-kl.py}
+
+    \begin{columns}
+    \begin{column}{0.7\textwidth}
+        \begin{itemize}
+            \item Bounds are important, but also not: $[-\infty, \infty]$ also works
+            \item Feels odd anyway, because gradient methods optimizing 1 $\rightarrow$ 2.8 shouldn't come near 0 anyway
+            \item[$\Rightarrow$] Bounds just change the optimizer underneath
+            \item Without bounds 'BFGS' is choosen and doesnt quite work
+            \item 'L-BFGS-B' or 'SLSQP' without bounds works equally
+        \end{itemize}
+    \end{column}
+
+    \begin{column}{0.3\textwidth}
+        \begin{figure}
+            \includegraphics[width=\textwidth]{images/sciminimize.png}
+        \end{figure}
+    \end{column}
+    \end{columns}
+
 \end{frame}
 
 \end{document}
