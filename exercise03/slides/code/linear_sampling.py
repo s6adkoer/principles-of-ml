@@ -1,0 +1,1 @@
+y=multivariate_normal(vec0 , linearKernelMatrix(vecX,vecX, 1))

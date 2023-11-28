@@ -1,0 +1,1 @@
+y=multivariate_normal(vec0 , gaussKernelMatrix(vecX,vecX, alpha=6, sigma=1.5))
