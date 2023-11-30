@@ -71,8 +71,7 @@
         \includegraphics[width=\textwidth]{images/ex3.3.1b.png}
     \end{minipage}
 
-    Keep in mind, that these results are random and will look different each time.
-    Outliers, as seen in the second image, are quite common.
+    Keep in mind, that these results are random and will look different each time
 
 \end{frame}
 
@@ -91,6 +90,127 @@
     \end{minipage}
 
     Keep in mind, that these results are random and will look different each time
+
+\end{frame}
+
+\section{Exercise 3.4}
+
+\begin{frame}
+    \frametitle{Fitting a gaussian process to the weight data set}
+
+    \begin{itemize}
+        \item Goal: Given the weight and height data from whData.dat, calculate a gaussian process that fits the data
+        \item Steps:
+            \begin{enumerate}
+                \item Remove outliers
+                \item Build kernel matrix using  diffMatrix and prodMatrix 
+                \begin{align*}
+                    [K]_{ij} &= \theta_1\exp\left(-\frac{(x_i-x_j)^2}{2\theta_2^2}\right)+\theta_3 x_ix_j \\
+                    C& = K + \theta_4 I
+                \end{align*}
+                \item Use Scipy.optimize with appropriate bounds to minimize the negative log-likelihood (that is: maximize the log-likelihood)
+                using \[\theta=\begin{pmatrix}1.0\\ 20.0\\0.5\\1.0\end{pmatrix}\]
+            \end{enumerate}
+        \item Result: $\theta=(58.318, 12.507, 0.0, 139.343)^T$
+    \end{itemize}
+
+\end{frame}
+
+\section{Exercise 3.4}
+
+\begin{frame}
+    \frametitle{Fitting a gaussian process to the weight data set}
+
+    \begin{itemize}
+        \item Goal: Given the weight and height data from whData.dat, calculate a gaussian process that fits the data
+        \item Approach:
+            \begin{enumerate}
+                \item Remove outliers
+                \item Build kernel matrix using  diffMatrix and prodMatrix 
+                \begin{align*}
+                    [K]_{ij} &= \theta_1\exp\left(-\frac{(x_i-x_j)^2}{2\theta_2^2}\right)+\theta_3 x_ix_j \\
+                    C& = K + \theta_4 I
+                \end{align*}
+                \item Use Scipy.optimize with appropriate bounds to minimize the negative log-likelihood (that is: maximize the log-likelihood)
+                using \[\theta=(1.0, 20.0, 0.5, 1.0)^T\]
+            \end{enumerate}
+            \inputminted[bgcolor=LightGray,fontsize=\small]{python}{code/minimize_nll.py}
+        \item Result: $\theta=(58.318, 12.507, 0.0, 139.343)^T$
+    \end{itemize}
+
+\end{frame}
+
+\section{Exercise 3.5}
+
+\begin{frame}
+    \frametitle{Sampling a fitted Gaussian process model}
+
+    \begin{itemize}
+        \item Now that we have a fitted guassian process, we can use our model 
+        to sample random pair according to our distribution.
+        \item Two mathematically equivalent approaches:
+        \begin{enumerate}
+            \item Draw $w\sim \overbrace{\mathcal{N}(0,C)}^{=\mathcal{N}(0,K+\theta_4 I)}$
+            \item Draw $w\sim \mathcal{N}(0,I)$, calculate a Cholesky factorization $C=LL^T$ and calculate $\overline{y}=Lw$
+                \[y'=\underbrace{\overline{y}}_{\text{centered sample}}+\underbrace{\frac{1}{n}11^Ty}_{\text{mean of weights}}\]
+        \end{enumerate}
+        \item the second approach results in a faster sampling, because it avoids inverting $C$
+    \end{itemize}    
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Sampling a fitted Gaussian process model: Results}
+
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{images/ex3.5.png}
+    \end{minipage}
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{images/task-3-5-4.png}
+    \end{minipage}
+
+\end{frame}
+
+\section{Exercise 3.6}
+
+\begin{frame}
+    \frametitle{Predicting with a fitted gaussian model}
+
+    \begin{itemize}
+        \item Goal: Predict weights for heights $x^*\in\R^N$
+        \item Approach: \begin{enumerate}
+            \item Given our fitted gaussian with $\hat{\theta}=(\hat{\theta}_1,\hat{\theta}_2,\hat{\theta}_3,\hat{\theta}_4)^T$
+            \item Let
+            \begin{align*}
+                &K_{xx}=K(x,x,\hat{\theta}_1,\hat{\theta}_2,\hat{\theta}_3)  &K_{x\star}=K(x,x^*,\hat{\theta}_1,\hat{\theta}_2,\hat{\theta}_3), \hspace{3mm}& \dots\\
+                &C=K_{xx}+\hat{\theta}_4 I    &\overline{\mu}^\star = K_{\star x}C^{-1}\overline{y},\hspace{9mm}&\Sigma^\star = K_{\star \star}-K_{\star x} C^{-1} K_{x\star}\\
+                &\sigma^\star = \sqrt{\text{diag}\left[\Sigma^\star \right]}\hspace{9mm}&\mu^\star = \overline{\mu}^\star +\frac{1}{n}11^Ty
+            \end{align*}
+        \end{enumerate}
+        \item Our predicted height weight pairs are $(x_j^\star,\mu_j^\star)$
+        \item We also get a one $\sigma$-confidence $(x_j^\star, \mu_j^\star\pm \sigma_j^\star)$
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Predicting with a fitted gaussian model: Result}
+
+    We get the following plot:
+
+    \begin{minipage}{0.45\textwidth}
+        \includegraphics[width=\textwidth]{images/task-3-6.png}
+    \end{minipage}
+    \begin{minipage}{0.45\textwidth}
+        \begin{itemize}
+            \item Plot as expected:
+            \begin{enumerate}
+                \item Thin in the middle (a lot of data)
+                \item Greater spread near the lowest / highest weights
+            \end{enumerate}
+            \item Best model yet, includes with added confidence in each guess.
+        \end{itemize}
+    \end{minipage}
 
 \end{frame}
 
