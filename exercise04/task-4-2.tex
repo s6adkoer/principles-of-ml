@@ -1,0 +1,123 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[left=0.75cm, right=0.75cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{colortbl}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{parskip}
+\usepackage{fancyhdr}
+\usepackage{chessboard}
+\usepackage{hyperref}
+\usepackage{mathtools}
+\usepackage{mathrsfs}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{calc}
+\usetikzlibrary{babel}
+\usetikzlibrary{cd}
+\usetikzlibrary{positioning}
+\usetikzlibrary{calc}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}[lemma]{Corollary}
+\linespread{1,25}
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0pt}
+\definecolor{grey}{rgb}{0.8,0.8,0.8}
+\newcommand {\N} {\mathbb{N}}
+\newcommand {\Z} {\mathbb{Z}}
+\newcommand {\Q} {\mathbb{Q}}
+\newcommand {\R} {\mathbb{R}}
+\newcommand {\C} {\mathbb{C}}
+\newcommand {\F} {\mathbb{F}}
+\newcommand {\iN} {\in \mathbb{N}}
+\newcommand {\iZ} {\in \mathbb{Z}}
+\newcommand {\iQ} {\in \mathbb{Q}}
+\newcommand {\iR} {\in \mathbb{R}}
+\newcommand {\iC} {\in \mathbb{C}}
+\newcommand {\iF} {\in \mathbb{F}}
+\newcommand {\Ra} {\implies}
+\newcommand{\powerset}{\mathcal{P}}
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\B}{\mathcal{B}}
+\newcommand{\tr}{\text{tr}}
+\newcommand*{\dotbigcup}{\mathop{\dot\bigcup}}
+\newcommand{\dotcup}{\mathbin{\dot\cup}}
+\DeclareMathOperator{\e}{e}
+\DeclareMathOperator{\osz}{osz}
+\let\i\undefined
+\DeclareMathOperator{\i}{i}
+\DeclareMathOperator{\Var}{Var}
+\renewcommand{\d}{\;\mathrm{d}}
+\DeclareMathOperator{\Vol}{Vol}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\id}{id}
+\DeclareMathOperator{\cyl}{cyl}
+\DeclareMathOperator{\Bild}{Bild}
+\DeclareMathOperator{\pr}{pr}
+\DeclareMathOperator{\ord}{ord}
+\usepackage{mathrsfs}
+\DeclareMathAlphabet{\mymathbb}{U}{bbold}{m}{n}
+\newcommand{\1}{\mymathbb{1}}
+\newcommand{\M}{\mathcal{M}(\mu^\ast)}
+\newcommand{\Nm}{\mathcal{N}(\mu)}
+\DeclarePairedDelimiter{\norm}{\|}{\|}
+\newcommand {\func}[5] {\left(\begin{array}{crcl}#1:&#2&\to&#3\\&#4&\mapsto&#5\end{array}\right)}
+\renewcommand{\comment}[1]{}
+
+\pagestyle{empty}
+
+\begin{document}
+
+
+\section*{Task 4.2}
+
+\begin{lemma} \label{l1}
+    For a matrix $A\in\R^{n\times n}$, $w=\frac{1}{n}1_n\in \R^n$ and $z\in\R^n$ the following equality holds:
+    \[\tr(Awz^\intercal)=z^\intercal A w\]
+\end{lemma}
+
+\begin{proof}
+    We can ignore the $\frac{1}{n}$, because it commutes with all of our operations. Therefore we show:
+    \[\tr(A1_nz^\intercal)=z^\intercal A 1_n\]
+    using the well know fact, that the trace operator is invariant under cyclic permutations, which, for two matrices $A,B\in\R^{n\times n}$, implies 
+    \[\tr(AB)=\tr(BA).\]
+    Therefore
+    \begin{align*}
+        \tr(A1z^\intercal)&=\tr(1z^\intercal A)\\
+        &\stackrel{\star}{=}\sum_{i=1}^n(z^\intercal A)_i
+        \stackrel{\star\star}{=}\underbrace{(z^\intercal A)1_n}_{\text{scalar product}}
+    \end{align*}
+
+    $\star$ holds, because (by associativity) $1_nz^\intercal A=1_n\underbrace{(z^\intercal A)}_{\eqqcolon a\text{, row vector}}$, i.e. 
+    $1_nz^\intercal A$ can be expressed as a product of the column vector $1$ and $a$, which is just a $n\times n$ matrix $M$,
+    where each of the $n$ rows is given by $a$. Therefore the trace (sum of the diagonal elements) is just the sum of the elements of $a$:
+    \[\tr(M)=\sum_{i=1}^n M_{ii}=\sum_{i=1}^n a_i\]
+
+    $\star\star$ holds by the definition of the scalar product:
+
+    \[\sum_{i=1}^n(z^\intercal A)_i=\sum_{i=1}^n(z^\intercal A)_i\cdot 1 =\sum_{i=1}^n(z^\intercal A)_i(1_n)_i=(z^\intercal A)1_n \]
+
+\end{proof}
+
+\begin{corollary}
+    For a data matrix $X$, $w=\frac{1}{n}1_n\in \R^n$ and $z\in\R^n$ the following equality holds:
+    \[\tr(X^\intercal Xwz^\intercal)=z^\intercal X^\intercal X w\]
+\end{corollary}
+
+\begin{proof}
+    The claim is the result of lemma \ref{l1} for $A=X^\intercal X$.
+\end{proof}
+
+\begin{corollary}
+    For a data matrix $X$, $w=\frac{1}{n}1\in \R^n$ and $z\in\R^n$ the following equality holds:
+    \[\tr(zw^\intercal X^\intercal Xwz^\intercal)=z^\intercal zw^\intercal X^\intercal Xwz^\intercal\]
+\end{corollary}
+
+\begin{proof}
+    The claim is the result of lemma \ref{l1} for $A=zw^\intercal X^\intercal X$, since 
+    $zw^\intercal\in \R^{n\times n}$ and therefore $zw^\intercal \underbrace{ X^\intercal X}_{\in \R^{n\times n}} \in \R^{n\times n}$
+\end{proof}
+
+\end{document}
