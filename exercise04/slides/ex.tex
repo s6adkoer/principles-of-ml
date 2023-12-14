@@ -101,6 +101,42 @@
 
 \end{frame}
 
+
+\section{Exercise 4.3}
+
+\begin{frame}
+    \frametitle{Creative Farthest Points}
+
+    Select $\mathcal{X} = \{x_1, x_2, \dots, x_n \}$ maximizing $\hat{S} = \underset{S \subset \mathcal{X}}{\mathrm{argmax}}  \underset{x_i \in S}\sum \underset{x_j \in S}\sum || x_i - x_j||^2$ s.t. $|S| = k$
+
+    Problem
+    \begin{itemize}
+        \item NP-hard problem with the umber of possible solutions in ${N\choose k}$
+        \item e.g. for the largest choice of $k=100$ with the face dataset: ${2429\choose 100} = 4.73 \cdot 10^{179}$ 
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Farthest-First Traversal}
+    Heuristical-approach to an approximate solution
+    \begin{enumerate}
+        \item Sample seed point randomly $\hat{S} = \{ x_0 \}$
+        \item Iteratively add the point that is furthes from all points in $\hat{S}$
+    \end{enumerate}
+
+    More specifically: 
+    \begin{enumerate}
+        \item Determine distance $x_j$ to all points in $\hat{S}$ $\rightarrow$ remember smallest $d(x_j, \hat{S})$
+        \item $\forall x_j  \in \mathcal{X}$, add $x_j$ with largest distance $d(x_j, \hat{S})$.
+        \item Repeat until $|\hat{S}| = k$
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}
+    \inputminted[bgcolor=LightGray,fontsize=\small]{python}{code/farthest-first.py}
+\end{frame}
+
+
 \section{Exercise 4.4}
 
 \begin{frame}
