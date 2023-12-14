@@ -101,41 +101,116 @@
 
 \end{frame}
 
-
 \section{Exercise 4.3}
 
 \begin{frame}
-    \frametitle{Exercise 4.3: Creative Farthest Points}
+    \frametitle{Exercise 4.3: Overview}
 
-    Select $\mathcal{X} = \{x_1, x_2, \dots, x_n \}$ maximizing $\hat{S} = \underset{S \subset \mathcal{X}}{\mathrm{argmax}}  \underset{x_i \in S}\sum \underset{x_j \in S}\sum || x_i - x_j||^2$ s.t. $|S| = k$
-
-    Problem
-    \begin{itemize}
-        \item NP-hard problem with the number of possible solutions in ${N\choose k}$
-        \item e.g. for the largest choice of $k=100$ with the face dataset: ${2429\choose 100} = 4.73 \cdot 10^{179}$ 
-    \end{itemize}
-\end{frame}
-
-\begin{frame}
-    \frametitle{Farthest-First Traversal}
-    Heuristical-approach to an approximate solution
     \begin{enumerate}
-        \item Sample seed point randomly $\hat{S} = \{ x_0 \}$
-        \item Iteratively add the point that is furthest from all points in $\hat{S}$
-
-        More specifically: 
-        \begin{enumerate}
-            \item Determine distance $x_j$ to all points in $\hat{S}$ $\rightarrow$ remember smallest $d(x_j, \hat{S})$ over subset
-            \item Add $x_j$ with largest distance $d(x_j, \hat{S})$ over $x_j  \in \mathcal{X}$
-            \item Repeat until $|\hat{S}| = k$
-        \end{enumerate}
+        \item Given $n$ data points $(x_j)_{j=1}^n, x_j\in\R^m$ find $k$ points which are maximally different: 
+        \[\hat{S}=\argmax_{S\subset X,\text{ } |S|=k}\sum_{x_i\in S}\sum_{x_j\in S} \Vert x_i-x_j\Vert^2\]
+        \item Two approaches
+        \begin{itemize}
+            \item Farthest first: Iteratively select points, s.t. the minimum of the distances to the previously selected points is maximized
+            \item Repeatedly drawing random subsets of size $k$ and only keeping the maximal subset w.r.t the objective function
+        \end{itemize}
+        \item Results
+        \begin{itemize}
+            \item The first and last algorithm give similar results w.r.t to the objective function, but look very different.
+            \item Converges in probability for fixed $n,k$
+        \end{itemize}
     \end{enumerate}
 \end{frame}
 
 \begin{frame}
-    \inputminted[bgcolor=LightGray,fontsize=\small]{python}{code/farthest-first.py}
+    \frametitle{Comparing our two main approaches}
+
+    \begin{itemize}
+        \item Greedy:\begin{itemize}
+            \item Rather fast
+            \item Harder to justify why it works
+        \end{itemize}
+        \item Repeated drawing:
+        \begin{itemize}
+            \item Run time determines expected error
+            \item Almost surely converges for fixed $n,k$
+            \item Randomized algorithm $\implies$ outliers are unlikely, but can happen 
+            \item Theory: Order statistics are well understood
+        \end{itemize}
+        \item The greedy approach is stable and fast 
+        \item Repeated drawing is random, slower, but comes with a strong theoretical foundation and convergence
+    \end{itemize}
+
 \end{frame}
 
+\begin{frame}
+    \frametitle{Farthest first approach: Code}
+
+    \inputminted[bgcolor=LightGray,fontsize=\small]{python}{code/farthest-first.py}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Randomized drawing: Code}
+
+    \inputminted[bgcolor=LightGray,fontsize=\small]{python}{code/randomized_drawing.py}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Exercise 4.3: Results: Blobs}
+
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{images/farthest-first-blobs.png}
+        \captionof{figure}{Farthest first result: Blobs}
+    \end{minipage}
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{images/4-3.blobs_3.png}+
+        \captionof{figure}{Randomized drawing result: Blobs}
+    \end{minipage}
+    
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Exercise 4.3: Results: Faces}
+
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{images/4-3_faces_25.png}+
+        \captionof{figure}{Randomized drawing results}
+    \end{minipage}
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{images/faces_adrian.png}
+        \captionof{figure}{Farthest first results}
+    \end{minipage}
+    
+\end{frame}
+
+\begin{frame}
+    \frametitle{Randomized drawing: A typical realisation}
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{images/faces-10000-100_maximum.png}+
+        \captionof{figure}{In practice randomized drawing reaches a stable maximum rather quickly}
+    \end{minipage}
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{images/faces-100000_runtimes_new.png}
+        \captionof{figure}{Randomized drawing: Run time}
+    \end{minipage}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Exercise 4.3: Convergence and run time}
+
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{images/kmeans-n.png}+
+        \captionof{figure}{Result for the blobs}
+    \end{minipage}
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{images/blob_mean4.4.png}
+        \captionof{figure}{Result for the faces}
+    \end{minipage}
+    
+\end{frame}
 
 \section{Exercise 4.4}
 
