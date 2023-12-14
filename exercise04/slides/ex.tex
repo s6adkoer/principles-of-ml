@@ -105,13 +105,13 @@
 \section{Exercise 4.3}
 
 \begin{frame}
-    \frametitle{Creative Farthest Points}
+    \frametitle{Exercise 4.3: Creative Farthest Points}
 
     Select $\mathcal{X} = \{x_1, x_2, \dots, x_n \}$ maximizing $\hat{S} = \underset{S \subset \mathcal{X}}{\mathrm{argmax}}  \underset{x_i \in S}\sum \underset{x_j \in S}\sum || x_i - x_j||^2$ s.t. $|S| = k$
 
     Problem
     \begin{itemize}
-        \item NP-hard problem with the umber of possible solutions in ${N\choose k}$
+        \item NP-hard problem with the number of possible solutions in ${N\choose k}$
         \item e.g. for the largest choice of $k=100$ with the face dataset: ${2429\choose 100} = 4.73 \cdot 10^{179}$ 
     \end{itemize}
 \end{frame}
@@ -121,14 +121,14 @@
     Heuristical-approach to an approximate solution
     \begin{enumerate}
         \item Sample seed point randomly $\hat{S} = \{ x_0 \}$
-        \item Iteratively add the point that is furthes from all points in $\hat{S}$
-    \end{enumerate}
+        \item Iteratively add the point that is furthest from all points in $\hat{S}$
 
-    More specifically: 
-    \begin{enumerate}
-        \item Determine distance $x_j$ to all points in $\hat{S}$ $\rightarrow$ remember smallest $d(x_j, \hat{S})$ over subset
-        \item Add $x_j$ with largest distance $d(x_j, \hat{S})$ over $x_j  \in \mathcal{X}$
-        \item Repeat until $|\hat{S}| = k$
+        More specifically: 
+        \begin{enumerate}
+            \item Determine distance $x_j$ to all points in $\hat{S}$ $\rightarrow$ remember smallest $d(x_j, \hat{S})$ over subset
+            \item Add $x_j$ with largest distance $d(x_j, \hat{S})$ over $x_j  \in \mathcal{X}$
+            \item Repeat until $|\hat{S}| = k$
+        \end{enumerate}
     \end{enumerate}
 \end{frame}
 
