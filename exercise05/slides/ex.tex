@@ -117,7 +117,7 @@
 \section{Exercise 5.3}
 
 \begin{frame}
-    \frametitle{Least squares SVMs for regression}
+    \frametitle{Exercise 5.3: Least squares SVMs for regression}
 
     \begin{itemize}
         \item Adding to the lecture we can use SVMs for regression as well
@@ -177,6 +177,49 @@
     \end{minipage}
 
 \end{frame}
+
+\section{Exercise 5.4}
+
+\begin{frame}
+    \frametitle{Exercise 5.4: Kernel SVM for binary classification}
+
+    \begin{columns}
+    \begin{column}{0.5\textwidth}
+    \begin{itemize}
+        \item Same math: $\begin{bmatrix} \boldsymbol{\hat{\lambda}} \\ \hat{b} \end{bmatrix} = \begin{bmatrix}\text{K} + \frac{1}{C}I & \boldsymbol{1} \\ \boldsymbol{1}^T & 0\end{bmatrix}^{-1} \begin{bmatrix} y \\ 0 \end{bmatrix} $
+        \item Different regression targets $y \in \{-1, 1\}$
+        \item Polynomial Kernel $k(u, v) = (b + \boldsymbol{u}^T\boldsymbol{v})^{d}$
+    \end{itemize}
+    \end{column}
+
+    \begin{column}{0.5\textwidth}
+        \inputminted[bgcolor=LightGray,fontsize=\small]{python}{code/svm.py}
+    \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Exercise 5.4: SVM Decision Boundary}
+
+    \begin{columns}
+        \begin{column}{0.3\textwidth}
+            \centering
+            \includegraphics[height=0.4\textheight]{images/task5-4-d_3.png}
+            \includegraphics[height=0.4\textheight]{images/task5-4-d_6.png}
+        \end{column}
+        \begin{column}{0.3\textwidth}
+            \centering
+            \includegraphics[height=0.4\textheight]{images/task5-4-d_4.png}
+            \includegraphics[height=0.4\textheight]{images/task5-4-d_8.png}
+        \end{column}    
+        \begin{column}{0.3\textwidth}
+            \centering
+            \includegraphics[height=0.4\textheight]{images/task5-4-d_5.png}
+            \includegraphics[height=0.4\textheight]{images/task5-4-d_9.png}
+        \end{column}
+        \end{columns}        
+\end{frame}
+
 
 \section{Exercise 5.5}
 
