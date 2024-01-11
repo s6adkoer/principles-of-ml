@@ -24,13 +24,14 @@
     \begin{enumerate}
         \item Goal: Fitting a polynomial to noisy data i.e.via polynomial regression
         \item First step: Transform inputs with feature map $\varphi(x) = [x^0, \dots, x^d]$ {\scriptsize (aka Vandermonde-Matrix)}
+        \inputminted[bgcolor=LightGray,fontsize=\small]{python}{code/vander.py}
         \item Second step: Estimate model weights: $\hat{w}=[\Phi\Phi^\intercal]^{-1}\Phi y$ {\scriptsize (via numerically stable inversion (i.e. QR))}
         \item Third step: Inference with the fitted model: $\hat{f}(x)=\varphi(x)^\intercal \hat{w}$
     \end{enumerate}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Results and Discussion}
+    \frametitle{Exercise 5.1.2: Results and Discussion}
 
     \begin{columns}
     \begin{column}{0.4\textwidth}
@@ -42,9 +43,17 @@
             \item Now, the degree 3 model is \textit{more reasonable} from (for example) the perspective of Occam's Razor.
             \item The point is: Judging overfitting from training data alone is questionable. We need validation data.
             \item In its abscence we can try \textbf{Leave-one-Out Cross-Validation} to quanitfy our intuition: \\
-                    Degree 3 clocks in at a validation MSE of 3.3e-3 while degree 9 amounts to 1.5e+2. However, degree = 4 performs 
-                    best in this regard with 1.9e-3.
         \end{itemize}
+        \begin{table}[]
+            \begin{tabular}{c|c}
+            Degree & MSE \\ \hline
+            3      &  0.0033   \\
+            4      &  0.0019   \\
+            5      &  0.012    \\
+            \dots              \\
+            9      &  151.06  
+            \end{tabular}
+            \end{table}
     \end{column}
     
     \end{columns}
@@ -68,64 +77,143 @@
 % \end{frame}
 
 \begin{frame}
-    \frametitle{Adding regularization}
+    \frametitle{Exercise 5.1.3: Adding regularization}
 
-    We now compute the solution to regularized least squares in the same way: $\hat{w}=[\Phi\Phi^\intercal+\lambda I]^{-1}\Phi y$ for different lambda:\newline
-    \begin{minipage}{0.32\textwidth}
-        \includegraphics[width=\textwidth]{images/task5-1-3_l0005.png}
-        \captionof{figure}{Polynomial fit for $\lambda=0.005$}
-    \end{minipage}
-    \begin{minipage}{0.32\textwidth}
-        \includegraphics[width=\textwidth]{images/task5-1-3_l05.png}
-        \captionof{figure}{Polynomial fit for $\lambda=0.5$}
-    \end{minipage}
-    \begin{minipage}{0.32\textwidth}
-        \includegraphics[width=\textwidth]{images/task5-1-3_l5.png}
-        \captionof{figure}{Polynomial fit for $\lambda=5$}
-    \end{minipage}
+    We now investigate the effect of different $\lambda$ on the solution to regularized least squares $(\hat{w}=[\Phi\Phi^\intercal+\lambda I]^{-1}\Phi y)$: \newline
+    \begin{columns}
+    \begin{column}{0.4\textwidth}
+        \includegraphics[width=\textwidth]{images/task-5-1-3.png}
+    \end{column}
+    \begin{column}{0.6\textwidth}
+        \begin{itemize}
+            \item Good results for small $\lambda=0.001$ within support, but shape towards $+\infty$ not as desired.
+            \item Larger $\lambda=0.1, 0.5$ yield better 'global' shape, but deviate more from $x^3$ within support.  
+            \item $\lambda=5$ gives worse results, which makes sense, because we are adding a larger value, decreasing the impact of our gram matrix before inverting!
+        \end{itemize}
+    \end{column}
+    \end{columns}
+    
+    % \begin{minipage}{0.32\textwidth}
+    %     \includegraphics[width=\textwidth]{images/task5-1-3_l0005.png}
+    %     \captionof{figure}{Polynomial fit for $\lambda=0.005$}
+    % \end{minipage}
+    % \begin{minipage}{0.32\textwidth}
+    %     \includegraphics[width=\textwidth]{images/task5-1-3_l05.png}
+    %     \captionof{figure}{Polynomial fit for $\lambda=0.5$}
+    % \end{minipage}
+    % \begin{minipage}{0.32\textwidth}
+    %     \includegraphics[width=\textwidth]{images/task5-1-3_l5.png}
+    %     \captionof{figure}{Polynomial fit for $\lambda=5$}
+    % \end{minipage}
 \end{frame}
 
-\begin{frame}
-    \frametitle{Regularized least squares}
+% \begin{frame}
+%     \frametitle{Regularized least squares}
 
-    \begin{itemize}
-        \item Great results for smaller $\lambda=0.5,0.005$
-        \item $\lambda=5$ gives a worse result, which intuitively makes sense, because we are adding a larger value, decreasing the impact of our gram matrix before inverting!
-    \end{itemize}
+%     \begin{itemize}
+%     \end{itemize}
 
-\end{frame}
+% \end{frame}
 
 \section{Exercise 5.2}
 
 \begin{frame}
-    \frametitle{Exercise 5.2: Setting}
+    \frametitle{Exercise 5.2: Set-Up}
 
     \begin{itemize}
         \item Lecture 07 showed that the dual least squares solution is given by $\hat{w}=\Phi[\Phi\Phi^\intercal]^{-1}y$
         \item After regularization this becomes $\hat{w}=\Phi[\Phi\Phi^\intercal+\lambda I]^{-1}y$
-        \item We kernelize the expression $\hat{f}(x)=\phi^\intercal(x)\Phi[\Phi\Phi^\intercal+\lambda I]^{-1}y$ to get \[\hat{f}(x)=k(x)^\intercal[K+\lambda I]^{-1}y\]
-        \item Good choices for the model parameters where given: $\lambda=0.5,b=1,d=3$
+        \item We kernelize the expression \begin{align} 
+                                            \hat{f}(x) &= \phi^\intercal(x)\Phi[\Phi\Phi^\intercal+\lambda I]^{-1}y \\
+                                \Rightarrow \hat{f}(x) &= k(x)^\intercal[K+\lambda I]^{-1}y
+                                          \end{align}
+        \item Initial choices for the model parameters where given: $\lambda=0.5,b=1,d=3$
     \end{itemize}
 
 \end{frame}
 
+\begin{frame}
+    \frametitle{Exercise 5.2: Results}
+
+    Influence of hyper-parameters on the estimated model: 
+    \begin{columns}
+    \begin{column}{0.36\textwidth}
+        \begin{figure}
+            \centering
+            \includegraphics[width=1.1\textwidth]{images/task-5-2-lambda.png}
+            \caption{\scriptsize Kernelized Regression:\\Impact of various $\lambda$ values}
+        \end{figure}
+    \end{column}
+
+    \begin{column}{0.36\textwidth}
+        \begin{figure}
+            \centering
+            \includegraphics[width=1.1\textwidth]{images/task-5-2-degree.png}
+            \caption{\scriptsize Kernelized Regression:\\Impact of various $degree$ values}
+        \end{figure}
+    \end{column}
+
+    \begin{column}{0.36\textwidth}
+        \begin{itemize}
+            \item $\lambda$ regularizes the least-squares solution.
+            \begin{itemize}
+                \item[+] Lower values lead to a more faithful fit
+                \item[-] predictions contain more noise for very small values
+            \end{itemize}
+            \item $degree$ specifies the shape of the fitted function
+        \end{itemize}
+    \end{column}
+    \end{columns}
+\end{frame}
 
 \begin{frame}
-    \frametitle{Results}
+    \frametitle{Exercise 5.2: Results}
 
-    \begin{minipage}{0.49\textwidth}
+    Influence of hyper-parameters on the estimated model: 
+    \begin{columns}
+    \begin{column}{0.36\textwidth}
+        \begin{figure}
+            \centering
+            \includegraphics[width=1.1\textwidth]{images/task-5-2-b.png}
+            \caption{\scriptsize Kernelized Regression:\\Impact of various $b$ values}
+        \end{figure}
+    \end{column}
+
+
+    \begin{column}{0.33\textwidth}
         \begin{itemize}
-            \item $b$ tranlates the result,
-            \item $d$ is the degree of the polynomial, therefore influencing the shape of our model in the usual ways
-            \item This, similarly to the previous task, leads to better results for $d=9$, again because of the regularization 
+            \item $b$ also influences how faithful the model can stick to the measurements (mostly around $x = 0$)
+            \item Small values lead to a small y-intercept for the predicted function
+            \item Larger ones result in a better (overall) fit
         \end{itemize}
-    \end{minipage}
-    \begin{minipage}{0.49\textwidth}
-        \includegraphics[width=\textwidth]{images/task5-2.png}
-        \captionof{figure}{Polynomial fit for the given parameters}
-    \end{minipage}
+    \end{column}
 
+    \begin{column}{0.33\textwidth}
+        \textbf{Connection to GP}
+        \begin{itemize}
+            \item Kernel Matrix with row/col for each data-point
+            \item Prediction is weighted interpolation of training data
+        \end{itemize}
+    \end{column}
+    \end{columns}
 \end{frame}
+
+% \begin{frame}
+%     \frametitle{Exercise 5.2: Results}
+
+%     \begin{minipage}{0.49\textwidth}
+%         \begin{itemize}
+%             \item $b$ tranlates the result, % TODO: doesnt look like it for me?
+%             \item $d$ is the degree of the polynomial, therefore influencing the shape of our model in the usual ways
+%             \item This, similarly to the previous task, leads to better results for $d=9$, again because of the regularization 
+%         \end{itemize}
+%     \end{minipage}
+%     \begin{minipage}{0.49\textwidth}
+%         \includegraphics[width=\textwidth]{images/task5-2.png}
+%         \captionof{figure}{Polynomial fit for the given parameters}
+%     \end{minipage}
+
+% \end{frame}
 
 \section{Exercise 5.3}
 
@@ -240,7 +328,7 @@
     \frametitle{Exercise 5.5: Minimum enclosing balls}
 
     \begin{itemize}
-        \item We already saw how to compute the minimal enclosing ball for a given dataset in lecture 08:
+        \item We already computed the minimal enclosing ball (MEB) for a given dataset in lecture 08:
         \begin{itemize}
             \item Using Frank-Wolfe solve \[\argmin_{\mu} \mu^\intercal X^\intercal X\mu-\mu^\intercal z\]
             \item where $X$ denotes the dataset $X=[x_1,\dots,x_n]\in\mathbb{R}^{m\times n}$ and $z=\text{diag}[X^\intercal X]$

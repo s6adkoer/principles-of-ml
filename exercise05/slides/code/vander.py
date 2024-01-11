@@ -1,0 +1,1 @@
+def vandermonde(x, degree=2): return np.vander(x, N=degree+1)
